@@ -1,8 +1,10 @@
-from demosaic import remosaic
-from demosaic import nearest_neighbor
+from PIL import Image
+import numpy as np
+from remosaic import *
+from nearest_neighbor import *
 
 def main():
-	img = Image.open("data/sample.jpg")
+	img = Image.open("sample.jpg")
 	img = np.asarray(img)
 	img.flags.writeable = True
 	out1 = Image.fromarray(img, 'RGB')
