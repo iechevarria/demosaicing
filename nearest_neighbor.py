@@ -26,12 +26,14 @@ def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
 
 				# blue: replace green and red
 				else:
-					try:
-						img[i][j][0] = img[i+1][j+1][0]
+					if i + 1 < int(img.shape[0]):
 						img[i][j][1] = img[i+1][j][1]
-					except:
-						img[i][j][0] = img[i-1][j-1][0]
+					else:
 						img[i][j][1] = img[i-1][j][1]
+					if i + 1 < int(img.shape[0]) and j + 1 < int(img.shape[1]):
+						img[i][j][0] = img[i+1][j+1][0]
+					else:
+						img[i][j][0] = img[i-1][j-1][0]
 
 			# red/green row
 			else:
@@ -41,7 +43,7 @@ def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
 						img[i][j][1] = img[i+1][j][1]
 					else:
 						img[i][j][1] = img[i-1][j][1]
-					if i + 1 <= j + 1 < int(img.shape[1]):
+					if i + 1 < int(img.shape[0]) and j + 1 < int(img.shape[1]):
 						img[i][j][2] = img[i+1][j+1][2]
 					else:
 						img[i][j][2] = img[i-1][j-1][2]
@@ -57,9 +59,7 @@ def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
 					else:
 						img[i][j][2] = img[i-1][j][2]
 
-
 	return img
-
 
 
 def nn_demosaic_xtrans(img, x_offset, y_offset):
@@ -69,9 +69,9 @@ def nn_demosaic_xtrans(img, x_offset, y_offset):
 
 def main():
 	from remosaic import to_bayer
-	print("Basic Pattern Test")
-	img = np.zeros((10,10,3), np.uint8)
-	img[0:100,0:100,0:3] = 255
+	img = Image.open("sample.jpg")
+	img = np.asarray(img)
+	img.flags.writeable = True
 	out1 = Image.fromarray(img, 'RGB')
 	out1.save("nn1.png")
 	img = to_bayer(img)
