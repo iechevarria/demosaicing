@@ -7,22 +7,23 @@ def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
 	""" Replaces channel information by taking the nearest neighbor's value """
 
 	for i in range(int(img.shape[0])):
-		y = i + y_offset
+		dy = (i + y_offset) % 2
 		for j in range(int(img.shape[1])):
-			x = j + x_offset
-			dy = y % 2
-			dx = x % 2
+			dx = (j + x_offset) % 2
 
 			# blue/green row
 			if dy == 0: 
 				# green: replace red and blue 
 				if dx == 0:
-					try:
+					if i + 1 < int(img.shape[0]):
 						img[i][j][0] = img[i+1][j][0]
-						img[i][j][2] = img[i][j+1][2]
-					except:
+					else:
 						img[i][j][0] = img[i-1][j][0]
+					if j + 1 < int(img.shape[1]):
+						img[i][j][2] = img[i][j+1][2]
+					else:
 						img[i][j][2] = img[i][j-1][2]
+
 				# blue: replace green and red
 				else:
 					try:
@@ -36,20 +37,26 @@ def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
 			else:
 				# red: replace green and blue 
 				if dx == 0:
-					try:
+					if i + 1 < int(img.shape[0]):
 						img[i][j][1] = img[i+1][j][1]
-						img[i][j][2] = img[i+1][j+1][2]
-					except:
+					else:
 						img[i][j][1] = img[i-1][j][1]
+					if i + 1 <= j + 1 < int(img.shape[1]):
+						img[i][j][2] = img[i+1][j+1][2]
+					else:
 						img[i][j][2] = img[i-1][j-1][2]
+
 				# green: replace red and blue 
 				else:
-					try:
-						img[i][j][0] = img[i+1][j][0]
-						img[i][j][2] = img[i][j+1][2]
-					except:
-						img[i][j][0] = img[i-1][j][0]
-						img[i][j][2] = img[i][j-1][2]
+					if j + 1 < int(img.shape[0]):
+						img[i][j][0] = img[i][j+1][0]
+					else:
+						img[i][j][0] = img[i][j-1][0]
+					if i + 1 < int(img.shape[1]):
+						img[i][j][2] = img[i+1][j][2]
+					else:
+						img[i][j][2] = img[i-1][j][2]
+
 
 	return img
 
@@ -71,7 +78,6 @@ def main():
 	out2 = Image.fromarray(img, 'RGB')
 	out2.save("nn2.png")
 	img = nn_demosaic_bayer(img)
-	print(img)
 	out3 = Image.fromarray(img, 'RGB')
 	out3.save("nn3.png")
 
