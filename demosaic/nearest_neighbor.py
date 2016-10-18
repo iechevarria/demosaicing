@@ -64,23 +64,4 @@ def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
 
 def nn_demosaic_xtrans(img, x_offset, y_offset):
 	""" Replaces channel information by taking the nearest neighbor's value """
-	return
-
-
-def main():
-	from remosaic import to_bayer
-	img = Image.open("sample.jpg")
-	img = np.asarray(img)
-	img.flags.writeable = True
-	out1 = Image.fromarray(img, 'RGB')
-	out1.save("nn1.png")
-	img = to_bayer(img)
-	out2 = Image.fromarray(img, 'RGB')
-	out2.save("nn2.png")
-	img = nn_demosaic_bayer(img)
-	out3 = Image.fromarray(img, 'RGB')
-	out3.save("nn3.png")
-
-
-if __name__ == '__main__':
-	main()
+	return img
