@@ -1,6 +1,5 @@
 """ Generate synthetic data by eliminating color channel information """
 
-
 from PIL import Image
 import numpy as np
 
