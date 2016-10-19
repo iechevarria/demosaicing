@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 
 
-def to_bayer(img, x_offset = 0, y_offset = 0):
+def mosaic_bayer(img, x_offset = 0, y_offset = 0):
 	""" Eliminates channel information to simulate a Bayer CFA 
 		@param 3D numpy array img
 		@param int x_offset
@@ -38,7 +38,7 @@ def to_bayer(img, x_offset = 0, y_offset = 0):
 	return img
 
 
-def to_xtrans(img, x_offset = 0, y_offset = 0):
+def mosaic_xtrans(img, x_offset = 0, y_offset = 0):
 	""" Eliminates channel information to simulate an X-Trans CFA 
 		@param 3D numpy array img
 		@param int x_offset
@@ -100,22 +100,3 @@ def to_xtrans(img, x_offset = 0, y_offset = 0):
 					img[i][j][2] = img[i][j][1] = 0
 				
 	return img
-
-
-def main():
-	print("Basic Pattern Test")
-	img = np.zeros((10,10,3), np.uint8)
-	img[0:100,0:100,0:3] = 255
-	out1 = Image.fromarray(img, 'RGB')
-	out1.save("out1.png")
-	bayer = to_bayer(img)
-	out2 = Image.fromarray(bayer, 'RGB')
-	out2.save("out2.png")
-	img[0:100,0:100,0:3] = 255
-	xtrans = to_xtrans(img)
-	out3 = Image.fromarray(xtrans, 'RGB')
-	out3.save("out3.png")
-
-
-if __name__ == '__main__':
-	main()

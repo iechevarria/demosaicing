@@ -3,7 +3,7 @@
 from PIL import Image
 import numpy as np
 
-def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
+def nnd_bayer(img, x_offset = 0, y_offset = 0):
 	""" Replaces channel information by taking the nearest neighbor's value
 		Assumption: img dimensions are divisible by 2
 		TODO add offsets back in """
@@ -20,8 +20,8 @@ def nn_demosaic_bayer(img, x_offset = 0, y_offset = 0):
 			img[i+1][j][1] = img[i+1][j+1][1]
 
 	return img
-	
 
-def nn_demosaic_xtrans(img, x_offset, y_offset):
+
+def nnd_xtrans(img, x_offset, y_offset):
 	""" Replaces channel information by taking the nearest neighbor's value """
 	return img
