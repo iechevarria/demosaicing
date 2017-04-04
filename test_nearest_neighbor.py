@@ -8,13 +8,13 @@ def main():
 	img = np.asarray(img)
 	img.flags.writeable = True
 	out1 = Image.fromarray(img, 'RGB')
-	out1.save("nn1.png")
+	out1.save("original.png")
 	img = mosaic_bayer(img)
 	out2 = Image.fromarray(img, 'RGB')
-	out2.save("nn2.png")
+	out2.save("mosaic.png")
 	img = nnd_bayer(img)
 	out3 = Image.fromarray(img, 'RGB')
-	out3.save("nn3.png")
+	out3.save("nearestneighbor.png")
 
 if __name__ == '__main__':
 	main()

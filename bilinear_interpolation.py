@@ -7,7 +7,3 @@ def bi_bayer(img, x_offset = 0, y_offset = 0):
     """
     """
     
-
-def pad_img(img, radius):
-    """pads image """
-    padded_img = img
